@@ -17,7 +17,7 @@ export default function AuthLayout({ children }) {
 
             <p className="text-sm/relaxed md:text-base/relaxed text-white pt-3 md:pt-6">
               Every inventory mistake costs you. Stockouts mean missed sales.
-              Overstock ties up cash and eat into profits.
+              Overstock ties up cash and eats into profits.
             </p>
 
             <p className="text-sm/relaxed md:text-base/relaxed text-white pt-5 md:pt-14">
@@ -27,11 +27,11 @@ export default function AuthLayout({ children }) {
 
             <div className="pt-5">
               <p className="text-sm md:text-base text-white">
-                ✅ Keep your best-sellers in stock.
+                ✅ Keep your bestsellers in stock.
               </p>
 
               <p className="text-sm md:text-base text-white pt-1">
-                ✅ Avoid over-ordering and reduce storage
+                ✅ Avoid overordering and reduce storage
               </p>
               <p className="text-sm md:text-base text-white pt-1">
                 ✅ Predict demand with AI-powered sales forecasting.
@@ -43,7 +43,7 @@ export default function AuthLayout({ children }) {
 
             <p className="text-xl md:text-[27px] text-white pt-10 md:pt-16">
               Start your 7-day free trial. only $15 per month after. No credit
-              card required. Start optimizing your inventory today!.
+              card required. Start optimizing your inventory today.
             </p>
           </div>
         </div>
