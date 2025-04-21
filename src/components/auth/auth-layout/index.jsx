@@ -27,7 +27,7 @@ export default function AuthLayout({ children }) {
 
             <div className="pt-5">
               <p className="text-sm md:text-base text-white">
-                ✅ Keep your bestsellers in stock.
+                ✅ Keep your bestsellers in stock
               </p>
 
               <p className="text-sm md:text-base text-white pt-1">
