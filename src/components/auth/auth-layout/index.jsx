@@ -34,10 +34,10 @@ export default function AuthLayout({ children }) {
                 ✅ Avoid overordering and reduce storage
               </p>
               <p className="text-sm md:text-base text-white pt-1">
-                ✅ Predict demand with AI-powered sales forecasting.
+                ✅ Predict demand with AI-powered sales forecasting
               </p>
               <p className="text-sm md:text-base text-white pt-1">
-                ✅ Enterprise-level forecasting at a small business price.
+                ✅ Enterprise-level forecasting at a small business price
               </p>
             </div>
 
