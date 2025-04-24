@@ -24,7 +24,6 @@ export default function UpdateSalesData() {
     const fileName = file.name;
     const fileExtension = fileName.split(".").pop() || "";
     setFileInfo({ name: fileName, extension: fileExtension });
-
   };
 
   const handleFileChange = (e) => {
@@ -116,17 +115,21 @@ export default function UpdateSalesData() {
                 No data uploaded yet
               </p>
             ) : (
-              data?.map((item, index) => <TableRow item={item} key={index} />)
+              <div className="max-h-[440px] overflow-y-scroll">
+                {data.map((item, index) => (
+                  <TableRow item={item} key={index} />
+                ))}
+              </div>
             )}
           </div>
         </div>
 
         <div className="flex items-center justify-between mt-5">
           <button
-            onClick={async() => {
+            onClick={async () => {
               const formData = new FormData();
               formData.append("file", files);
-          
+
               try {
                 await updateSales(formData)
                   .unwrap()
@@ -140,7 +143,6 @@ export default function UpdateSalesData() {
             className="w-[110px] h-10 ml-auto bg-[#F0F2F5] rounded-xl text-sm text-[#121417] font-bold cursor-pointer flex items-center justify-center"
           >
             {isLoading ? <Loader /> : "Submit"}
-            
           </button>
         </div>
       </div>
