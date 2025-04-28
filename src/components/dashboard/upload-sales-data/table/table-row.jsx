@@ -22,7 +22,7 @@ export default function TableRow({ item }) {
       <div className="w-[226px] text-sm text-[#61788A]">{SKU}</div>
 
       <div className="w-[229px] text-sm text-[#61788A]">{UnitsSold}</div>
-      <div className="w-[240px] text-sm text-[#61788A]">${Price}</div>
+      <div className="w-[240px] text-sm text-[#61788A]">${Sales}</div>
     </div>
   );
 }
