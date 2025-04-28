@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function TableRow({ item }) {
-  const { SKU, Price, UnitsSold, SaleDate } = item || {};
+  const { SKU, Sales, UnitsSold, SaleDate } = item || {};
 
   const formatDate = (isoString) => {
     const date = new Date(isoString);
