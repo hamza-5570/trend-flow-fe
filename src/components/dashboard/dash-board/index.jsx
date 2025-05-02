@@ -12,9 +12,18 @@ import Mypaginations from "@/components/my-paginations";
 import { useRouter } from "next/router";
 
 export default function Dashboard() {
-  const { data: stockout, isLoading } = useStockOutAlertsQuery("stockout");
+    const [filters, setFilters] = useState({
+      page: 1,
+      type: "stockout",
+    });
+    const [filtersoverStock, setFiltersOverStock] = useState({
+      page: 1,
+      type: "overstock",
+    });
+  
+  const { data: stockout, isLoading } = useStockOutAlertsQuery(filters);
   const { data: OverstockData, isLoading: overstockLoading } =
-    useStockOutAlertsQuery("overstock");
+    useStockOutAlertsQuery(filtersoverStock);
   const { data: topselling, isLoading: topLoading } = useTopSellingsQuery();
   const [currentPage, setCurrentPage] = useState(1);
   const { totalPages } = topselling?.data?.pagination || {};
@@ -58,7 +67,7 @@ export default function Dashboard() {
               </button>
             </div>
           ) : (
-            <StockOutTable stockout={stockout} />
+            <StockOutTable stockout={stockout} setFilters={setFilters} filters={filters} />
           )}
         </div>
 
@@ -85,7 +94,7 @@ export default function Dashboard() {
               </button>
             </div>
           ) : (
-            <OverStockTable OverstockData={OverstockData} />
+            <OverStockTable OverstockData={OverstockData} setFiltersOverStock={setFiltersOverStock} filtersoverStock={filtersoverStock} />
           )}
         </div>
         <div className="mt-8">

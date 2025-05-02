@@ -22,11 +22,30 @@ import {
 import { useGetCategoryQuery } from "@/lib/services/product-api";
 import Loader from "@/components/common/loader";
 import dateFormat from "dateformat";
+import Mypaginations from "@/components/my-paginations";
+import { useRouter } from "next/router";
 
 export default function ForeCast() {
-  const [filters, setFilters] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [filters, setFilters] = useState({
+    page: 1,
+  });
   const { isLoading, data } = useGetforcastQuery(filters);
- 
+  const { totalPages } = data?.data || {};
+  const router = useRouter();
+
+  const onPageChange = (newPage) => {
+    setCurrentPage(newPage);
+
+    router.push({
+      pathname: router.pathname, // Keeps the current path
+      query: { ...router.query, page: newPage }, // Merge existing and new query args
+    });
+    setFilters({
+      ...filters,
+      page: newPage,
+    });
+  };
   return (
     <div>
       <p className="text-2xl md:text-[32px] text-[#121417] font-bold">
@@ -42,15 +61,30 @@ export default function ForeCast() {
         onSubmit={async (values) => {
           console.log("values", values);
           try {
-            setFilters({
-              sku: values.sku,
-              category: values.category,
-              from: dateFormat(new Date(values.startDate), "yyyy-mm-dd"),
-              to: dateFormat(new Date(values.endDate), "yyyy-mm-dd"),
-            });
+            const { sku, category, startDate, endDate } = values;
+            const from = startDate ? dateFormat(new Date(startDate), "yyyy-mm-dd") : null;
+            const to = endDate ? dateFormat(new Date(endDate), "yyyy-mm-dd") : null;
+          
+            if (sku || category || from) {
+              setFilters((prevFilters) => ({
+                ...prevFilters,
+                ...(sku && { sku }),
+                ...(category && { category }),
+                ...(from && { from }),
+                ...(to && { to }),
+              }));
+            }
          
+
+            // setFilters({
+            //   ...filters,
+            //   sku: values.sku,
+            //   category: values.category,
+            //   from: dateFormat(new Date(values.startDate), "yyyy-mm-dd"),
+            //   to: dateFormat(new Date(values.endDate), "yyyy-mm-dd"),
+            // });
           } catch (error) {
-            toast.error(error?.data?.error);
+            toast.error("Something went wrong");
           }
         }}
       >
@@ -70,32 +104,6 @@ export default function ForeCast() {
               <div className="mt-6">
                 <p className="text-base text-[#121417] font-medium">Category</p>
 
-                {/* <Field name="category" id="category">
-                  {({ field, form }) => (
-                    <Select
-                      name={field.name}
-                      value={field.value}
-                      onValueChange={(value) => {
-                        form.setFieldValue(field.name, value);
-                      }}
-                    >
-                      <SelectTrigger className="w-full md:w-[448px] py-6 border border-[#DBE0E5] rounded-xl text-base placeholder:text-[#637587] px-5 mt-2">
-                        <SelectValue placeholder="Search  by category" />
-                      </SelectTrigger>
-                      <SelectContent className={"bg-white"}>
-                        <SelectGroup>
-                          {categoryData?.data?.map((item) => {
-                            return (
-                              <SelectItem value={item._id}>
-                                {item.name}
-                              </SelectItem>
-                            );
-                          })}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  )}
-                </Field> */}
                 <Field
                   type="text"
                   name="category"
@@ -145,6 +153,13 @@ export default function ForeCast() {
               No data found
             </p>
           )}
+        </div>
+        <div className="flex justify-center my-4 ">
+          <Mypaginations
+            count={totalPages}
+            page={currentPage}
+            onChange={onPageChange}
+          />
         </div>
       </div>
     </div>

@@ -6,12 +6,15 @@ import { useRouter } from "next/router";
 import Loader from "@/components/common/loader";
 import { Button } from "@/components/ui/button";
 
-export default function StockOutTable({ stockout }) {
+export default function StockOutTable({ stockout ,setFilters,filters}) {
   const [currentPage, setCurrentPage] = useState(1);
-  const {totalPages}=stockout?.message || {}
+  const {totalPages}=stockout?.data || {}
   const router=useRouter()
   const onPageChange = (newPage) => {
     setCurrentPage(newPage);
+    setFilters({
+      ...filters,
+      page:newPage})
     router.push({
       pathname: router.pathname, // Keeps the current path
       query: { ...router.query, page: newPage }, // Merge existing and new query args

@@ -6,9 +6,9 @@ import { useRouter } from "next/router";
 import Loader from "@/components/common/loader";
 import { Button } from "@/components/ui/button";
 
-export default function ReOrderTable({ reorder }) {
+export default function ReOrderTable({ reorder,setFilters,filters }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const { totalPages } = reorder?.message || {};
+  const { totalPages } = reorder?.data || {};
   const router = useRouter();
   const onPageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -16,7 +16,12 @@ export default function ReOrderTable({ reorder }) {
       pathname: router.pathname, // Keeps the current path
       query: { ...router.query, page: newPage }, // Merge existing and new query args
     });
+    setFilters({
+      ...filters,
+      page: newPage,
+    });
   };
+  console.log("reoder totalPages",totalPages)
   return (
     <div className="overflow-x-auto border border-[#DBE0E5] rounded-xl mt-5">
       <div className="max-w-[300px] xl:max-w-full">

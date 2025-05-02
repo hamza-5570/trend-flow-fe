@@ -8,7 +8,7 @@ const alertsApi = createApi({
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("token");
       if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
+        headers.set("x-auth-token", `${token}`);
       }
       return headers;
     },
@@ -16,10 +16,14 @@ const alertsApi = createApi({
 
   endpoints: (builder) => ({
     stockOutAlerts: builder.query({
-      query: (query) => ({
-        url: `/alert/all?type=${query}`,
+
+      query: (filters) => {
+        const queryString = new URLSearchParams(filters).toString();
+      return  {
+        url: `/alert/all?${queryString}`,
         method: "GET",
-      }),
+      }
+    },
     }),
     topSellings: builder.query({
       query: () => ({
