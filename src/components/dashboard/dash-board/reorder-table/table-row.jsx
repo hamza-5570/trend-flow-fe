@@ -13,7 +13,7 @@ export default function TableRow({ item }) {
       </div>
 
       <div className="w-[189px] text-sm text-[#61788A]">
-        {formatDate(item?.updatedAt)}
+        {formatDate(item?.stockOutDate)}
       </div>
       <div className="w-[170px] text-sm text-[#61788A]">{item?.quantity}</div>
 
