@@ -5,18 +5,24 @@ import Mypaginations from "@/components/my-paginations";
 import { useRouter } from "next/router";
 import { Button } from "@/components/ui/button";
 
-export default function OverStockTable({ OverstockData }) {
+export default function OverStockTable({ OverstockData,setFiltersOverStock,filtersoverStock }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const { totalPages } = OverstockData?.message || {}; 
+  const { totalPages } = OverstockData?.data || {}; 
   const router = useRouter();
 
   const onPageChange = (newPage) => {
     setCurrentPage(newPage);
+    setFiltersOverStock({
+      ...filtersoverStock,
+      page: newPage
+    })
     router.push({
       pathname: router.pathname, // Keeps the current path
       query: { ...router.query, page: newPage }, // Merge existing and new query args
     });
   };
+
+
   return (
     <div className="overflow-x-auto border border-[#DBE0E5] rounded-xl mt-5">
       <div className="max-w-[300px] xl:max-w-full">

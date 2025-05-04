@@ -12,7 +12,11 @@ import { Button } from "@/components/ui/button";
 
 export default function LowStockItems() {
   const { data: stockout } = useStockOutAlertsQuery("stockout");
-  const { data: reorder, isLoading } = useStockOutAlertsQuery("reorder");
+      const [filters, setFilters] = useState({
+        page: 1,
+        type: "reorder",
+      });
+  const { data: reorder, isLoading } = useStockOutAlertsQuery(filters);
   const [resetQuantity, setResetQuantity] = useState(false);
   const [cart, setCart] = useState([]);
   const [updateStock, { isLoading: isLoadingUpdateStock }] =
@@ -103,7 +107,7 @@ export default function LowStockItems() {
             </p>
           </div>
         ) : (
-          <ReOrderTable reorder={reorder} />
+          <ReOrderTable reorder={reorder} setFilters={setFilters}  filters={filters}/>
         )}
       </div>
     </div>
