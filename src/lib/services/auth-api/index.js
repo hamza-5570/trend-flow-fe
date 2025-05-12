@@ -36,6 +36,13 @@ const authApi = createApi({
         method: "GET",
       }),
     }),
+    getInventory: builder.query({
+      query: () => ({
+        url: `/inventory/all`,
+        method: "GET",
+      }),
+  
+    }),
     getuserById: builder.query({
       query: (id) => ({
         url: `/auth/getById/${id}`,
@@ -69,6 +76,7 @@ export const {
   useResetPasswordMutation,
   useLazyGetuserByIdQuery,
   useGetuserByIdQuery,
+  useGetInventoryQuery,
   middleware: authApiMiddleware,
   reducerPath: authApiReducerPath,
   reducer: authApiReducer,

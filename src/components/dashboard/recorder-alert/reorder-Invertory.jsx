@@ -2,9 +2,12 @@ import { Form, Formik } from "formik";
 import ReorderForm from "./reorder-form";
 import {  useUpdateInventoryStockMutation } from "@/lib/services/alerts-api";
 import { toast } from "sonner";
+import { useGetInventoryQuery } from "@/lib/services/auth-api";
 
 export default function ReorderInvertory() {
   const [updateInventoryStock,{isLoading}] = useUpdateInventoryStockMutation();
+    const {data,isLoading:loading}=useGetInventoryQuery()
+
   const handleSubmit = async (values,{resetForm}) => {
     const formdata = new FormData();
     formdata.append("file", values.file);
@@ -17,14 +20,16 @@ export default function ReorderInvertory() {
       toast.error(err?.data?.error);
     });
   };
-
+// data?.message?.inventory[0].lead_time
+console.log("data",data?.message?.inventory[0]?.lead_time)
   return (
     <Formik
       initialValues={{
-        lead_time: "",
-        safety_stock: "",
+        lead_time: data?.message?.inventory[0]?.lead_time,
+        safety_stock: data?.message?.inventory[0]?.safety_stock,
         file: null,
       }}
+      enableReinitialize
       onSubmit={handleSubmit}
     >
       {(props) => (

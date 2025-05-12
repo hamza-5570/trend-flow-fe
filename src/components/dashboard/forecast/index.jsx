@@ -24,16 +24,30 @@ import Loader from "@/components/common/loader";
 import dateFormat from "dateformat";
 import Mypaginations from "@/components/my-paginations";
 import { useRouter } from "next/router";
+import { CalendarIcon } from "lucide-react";
+
+import { Calendar } from "@/components/ui/calendar";
+import { addDays } from "date-fns";
+import { cn } from "@/lib/utils";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export default function ForeCast() {
   const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState({
     page: 1,
   });
-  const { isLoading, data } = useGetforcastQuery(filters);
+  const { isLoading, data, refetch } = useGetforcastQuery(filters);
   const { totalPages } = data?.data || {};
   const router = useRouter();
-
+  const [date, setDate] = React.useState({
+    from: new Date(2022, 0, 20),
+    to: addDays(new Date(2022, 0, 20), 20),
+  });
+  console.log("date..................",date)
   const onPageChange = (newPage) => {
     setCurrentPage(newPage);
 
@@ -46,6 +60,8 @@ export default function ForeCast() {
       page: newPage,
     });
   };
+  console.log("filters", filters);
+
   return (
     <div>
       <p className="text-2xl md:text-[32px] text-[#121417] font-bold">
@@ -62,9 +78,9 @@ export default function ForeCast() {
           console.log("values", values);
           try {
             const { sku, category, startDate, endDate } = values;
-            const from = startDate ? dateFormat(new Date(startDate), "yyyy-mm-dd") : null;
-            const to = endDate ? dateFormat(new Date(endDate), "yyyy-mm-dd") : null;
-          
+            const from = dateFormat(new Date(date.from), "yyyy-mm-dd")
+            const to = dateFormat(new Date(date.to), "yyyy-mm-dd")
+
             if (sku || category || from) {
               setFilters((prevFilters) => ({
                 ...prevFilters,
@@ -74,15 +90,6 @@ export default function ForeCast() {
                 ...(to && { to }),
               }));
             }
-         
-
-            // setFilters({
-            //   ...filters,
-            //   sku: values.sku,
-            //   category: values.category,
-            //   from: dateFormat(new Date(values.startDate), "yyyy-mm-dd"),
-            //   to: dateFormat(new Date(values.endDate), "yyyy-mm-dd"),
-            // });
           } catch (error) {
             toast.error("Something went wrong");
           }
@@ -111,12 +118,7 @@ export default function ForeCast() {
                   component={InputFiled}
                 />
               </div>
-
-              <div
-                className="md:w-[448px] grid grid-cols-1 md:grid-cols-2
-         gap-3 mt-5"
-              >
-                <div>
+              {/* <div>
                   <p className="text-base text-[#121417] font-medium">From</p>
                   <DatePickerPopover name="startDate" />
                 </div>
@@ -124,16 +126,70 @@ export default function ForeCast() {
                 <div>
                   <p className="text-base text-[#121417] font-medium">To</p>
                   <DatePickerPopover name="endDate" />
-                </div>
+                </div> */}
+              <div className="  gap-3 mt-5">
+                <Popover>
+                  <PopoverTrigger>
+                    <Button
+                      id="date"
+                      variant={"outline"}
+                      className={cn(
+                        "w-[300px] justify-start text-left font-normal",
+                        !date && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon />
+                      {date?.from ? (
+                        date.to ? (
+                          <>
+                            {format(date.from, "LLL dd, y")} -{" "}
+                            {format(date.to, "LLL dd, y")}
+                          </>
+                        ) : (
+                          format(date.from, "LLL dd, y")
+                        )
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                   <Calendar
+            initialFocus
+            mode="range"
+            defaultMonth={date?.from}
+            selected={date}
+            onSelect={setDate}
+            numberOfMonths={2}
+          />
+                  </PopoverContent>
+                </Popover>
               </div>
             </div>
-            <Button
-              type="submit"
-              disabled={!props.isValid || !props.dirty}
-              className="bg-black mt-5 cursor-pointer text-white"
-            >
-              {isLoading ? "Loading..." : "Filter"}
-            </Button>
+            <div className="flex gap-2  ">
+              <Button
+                type="submit"
+                disabled={!props.isValid || !props.dirty}
+                className="bg-black mt-5 cursor-pointer text-white"
+              >
+                {isLoading ? "Loading..." : "Filter"}
+              </Button>
+              <Button
+                type="button"
+                onClick={() => {
+                  setFilters({
+                    page: 1,
+                  });
+                 props.resetForm()
+                  setTimeout(() => {
+                    refetch();
+                  }, 1000);
+                }}
+                className="bg-black mt-5 cursor-pointer text-white"
+              >
+                Clear Filter
+              </Button>
+            </div>
           </Form>
         )}
       </Formik>

@@ -1,6 +1,7 @@
 import Loader from "@/components/common/loader";
 import InputFiled from "@/components/input-filed";
 import { Button } from "@/components/ui/button";
+import { useGetInventoryQuery } from "@/lib/services/auth-api";
 import { Field, useFormikContext } from "formik";
 import React, { useState } from "react";
 
