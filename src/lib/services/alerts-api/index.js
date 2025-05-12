@@ -13,7 +13,7 @@ const alertsApi = createApi({
       return headers;
     },
   }),
-
+  tagTypes: ["alerts","forcast"],
   endpoints: (builder) => ({
     stockOutAlerts: builder.query({
 
@@ -24,6 +24,7 @@ const alertsApi = createApi({
         method: "GET",
       }
     },
+    providesTags: ["alerts"],
     }),
     topSellings: builder.query({
       query: () => ({
@@ -46,6 +47,7 @@ const alertsApi = createApi({
           method: "GET",
         };
       },
+      providesTags: ["forcast"],
     }),
     updateInventory: builder.mutation({
       query: (data) => ({
@@ -75,6 +77,20 @@ const alertsApi = createApi({
         body: data,
       }),
     }),
+    deleteForcast: builder.mutation({
+      query: (id) => ({
+        url: `/forcast/delete/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["forcast"],
+    }),
+    deleteAlert: builder.mutation({
+      query: (id) => ({
+        url: `/alert/delete/${id}/stockout`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["alerts"],
+    }),
 
     getNotifications: builder.query({
       query: () => ({
@@ -100,7 +116,9 @@ export const {
   useGetLowStockQuery,
   useGetNotificationsQuery,
   useUpdateStockMutation,
+  useDeleteForcastMutation,
   useGetforcastQuery,
+  useDeleteAlertMutation,
   useUpdateNotificationMutation,
   useUpdateInventoryStockMutation,
   middleware: alertsApiMiddleware,
