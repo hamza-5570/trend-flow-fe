@@ -44,10 +44,10 @@ export default function ForeCast() {
   const { totalPages } = data?.data || {};
   const router = useRouter();
   const [date, setDate] = React.useState({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
+    from: new Date(),
+    to: new Date(),
   });
-  console.log("date..................",date)
+  console.log("date..................", date);
   const onPageChange = (newPage) => {
     setCurrentPage(newPage);
 
@@ -70,22 +70,22 @@ export default function ForeCast() {
       <Formik
         initialValues={{
           sku: "",
-          category: "",
+          description: "",
           startDate: "",
           endDate: "",
         }}
         onSubmit={async (values) => {
           console.log("values", values);
           try {
-            const { sku, category, startDate, endDate } = values;
-            const from = dateFormat(new Date(date.from), "yyyy-mm-dd")
-            const to = dateFormat(new Date(date.to), "yyyy-mm-dd")
+            const { sku, description, startDate, endDate } = values;
+            const from = dateFormat(new Date(date.from), "yyyy-mm-dd");
+            const to = dateFormat(new Date(date.to), "yyyy-mm-dd");
 
-            if (sku || category || from) {
+            if (sku || description || from) {
               setFilters((prevFilters) => ({
                 ...prevFilters,
                 ...(sku && { sku }),
-                ...(category && { category }),
+                ...(description && { description }),
                 ...(from && { from }),
                 ...(to && { to }),
               }));
@@ -113,8 +113,8 @@ export default function ForeCast() {
 
                 <Field
                   type="text"
-                  name="category"
-                  placeholder="Search  by category"
+                  name="description"
+                  placeholder="Search  by description"
                   component={InputFiled}
                 />
               </div>
@@ -154,14 +154,14 @@ export default function ForeCast() {
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
-                   <Calendar
-            initialFocus
-            mode="range"
-            defaultMonth={date?.from}
-            selected={date}
-            onSelect={setDate}
-            numberOfMonths={2}
-          />
+                    <Calendar
+                      initialFocus
+                      mode="range"
+                      defaultMonth={date?.from}
+                      selected={date}
+                      onSelect={setDate}
+                      numberOfMonths={2}
+                    />
                   </PopoverContent>
                 </Popover>
               </div>
@@ -180,7 +180,7 @@ export default function ForeCast() {
                   setFilters({
                     page: 1,
                   });
-                 props.resetForm()
+                  props.resetForm();
                   setTimeout(() => {
                     refetch();
                   }, 1000);
