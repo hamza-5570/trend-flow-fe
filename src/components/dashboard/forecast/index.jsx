@@ -109,7 +109,7 @@ export default function ForeCast() {
               </div>
 
               <div className="mt-6">
-                <p className="text-base text-[#121417] font-medium">Category</p>
+                <p className="text-base text-[#121417] font-medium">Keyword</p>
 
                 <Field
                   type="text"

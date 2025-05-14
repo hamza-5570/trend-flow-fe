@@ -5,7 +5,7 @@ export default function TableHeader() {
     <div className="min-w-[1000px] flex items-center justify-between px-5 py-3 border-b border-[#DBE0E5]">
       <div className="w-[144px] text-sm text-[#121417] font-medium">SKU</div>
       <div className="w-[80px] text-sm text-[#121417] font-medium">
-        Description
+        Product Title
       </div>
 
       <div className="w-[167px] text-sm text-[#121417] font-medium">
