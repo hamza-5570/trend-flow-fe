@@ -114,7 +114,7 @@ export default function ForeCast() {
                 <Field
                   type="text"
                   name="description"
-                  placeholder="Search  by description"
+                  placeholder="Search  by keyword"
                   component={InputFiled}
                 />
               </div>
