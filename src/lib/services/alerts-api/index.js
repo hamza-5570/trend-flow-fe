@@ -85,10 +85,13 @@ const alertsApi = createApi({
       invalidatesTags: ["forcast"],
     }),
     deleteAlert: builder.mutation({
-      query: (id) => ({
-        url: `/alert/delete/${id}/stockout`,
+      query: ({id,type}) => {
+      console.log("id",id,"type",type)  
+       return {
+        url: `/alert/delete/${id}/${type}`,
         method: "DELETE",
-      }),
+      }
+      },
       invalidatesTags: ["alerts"],
     }),
 

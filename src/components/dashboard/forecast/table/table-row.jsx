@@ -7,9 +7,9 @@ export default function TableRow({ data }) {
   const [deleteForcast, { isLoading }] = useDeleteForcastMutation();
   return (
     <div className="min-w-[1000px] flex items-center justify-between border-b border-[#DBE0E5] p-5">
-      <div className="w-[144px] text-sm text-[#121417]">#{data?.sku}</div>
+      <div className="w-[100px] text-sm text-[#121417]">#{data?.sku}</div>
 
-      <div className="w-[80px] text-sm text-[#61788A] truncate">
+      <div title={data?.description} className="w-[160px] text-sm text-[#61788A] truncate">
         {data?.description}
       </div>
 
@@ -26,7 +26,7 @@ export default function TableRow({ data }) {
       <div className="w-[134px] text-sm text-[#61788A] flex items-center justify-center">
         {data?.days_demand_90}
       </div>
-      <div className="w-[34px] text-sm text-[#61788A] cursor-pointer">
+      <div className="w-[50px] text-sm text-[#61788A] cursor-pointer">
         {isLoading ? (
           <Loader />
         ) : (

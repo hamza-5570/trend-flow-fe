@@ -11,22 +11,24 @@ export default function TableRow({ item }) {
   };
   return (
     <div className="min-w-[1000px] flex items-center justify-between border-b border-[#DBE0E5] p-5">
-      <div className="w-[182px] text-sm text-[#121417]">{item?.sku}</div>
+      <div className="w-[120px] text-sm text-[#121417]">{item?.sku}</div>
 
-      <div className="w-[200px] text-sm truncate text-[#61788A]">
+      <div title={item?.description} className="w-[200px] text-sm truncate text-[#61788A]">
         {item?.description}
       </div>
 
-      <div className="w-[189px] text-sm text-[#61788A]">
+      <div className="w-[120px] text-sm text-[#61788A]">
         {formatDate(item?.stockOutDate)}
       </div>
-      <div className="w-[170px] text-sm text-[#61788A]">{item?.quantity}</div>
+      <div className="w-[120px] text-sm text-[#61788A]">{item?.quantity}</div>
 
-      <div className="w-[150px] text-sm text-[#61788A]">
+      <div className="w-[120px] text-sm text-[#61788A]">
         {item?.weeklyDemand}
       </div>
-        <div className="w-[30px] text-sm text-[#61788A]">
-            {isLoading ? <Loader/> : <MdDelete size={20} onClick={()=>deleteAlert(item?.sku)}/>}
+        <div className="w-[50px] text-sm text-[#61788A]">
+            {isLoading ? <Loader/> : <MdDelete size={20} onClick={()=>deleteAlert({
+                id:item?.sku,
+                type:'stockout'})}/>}
             </div>
     </div>
   );
