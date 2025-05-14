@@ -27,25 +27,31 @@ export default function ReorderForm({ isloading }) {
         Reorder Alerts
       </p>
 
-      <div className="mt-6">
+      <div className="mt-6 grid grid-cols-2 gap-5">
         <div>
-          <p className="text-base text-[#121417] font-medium">Lead Time</p>
-          <Field name="lead_time" placeholder="14 Days" as={InputFiled} />
+          <div>
+            <p className="text-base text-[#121417] font-medium">Lead Time</p>
+            <Field name="lead_time" placeholder="14 Days" as={InputFiled} />
 
-          <p className="text-xs text-[#637587] pt-2 px-3">
-            The number of days it takes to receive stock after placing an order.
-          </p>
-        </div>
+            <p className="text-xs text-[#637587] pt-2 px-3">
+              The number of days it takes to receive stock after placing an
+              order.
+            </p>
+          </div>
+          <div className="mt-5">
+            <p className="text-base text-[#121417] font-medium">
+              Safety Stock (%)
+            </p>
+            <div className="relative ">
+              <Field name="safety_stock" placeholder="20%" as={InputFiled} />
+              <p className="absolute top-5 right-3">%</p>
+            </div>
 
-        <div className="mt-5">
-          <p className="text-base text-[#121417] font-medium">
-            Safety Stock (%)
-          </p>
-          <Field name="safety_stock" placeholder="20%" as={InputFiled} />
-          <p className="text-xs text-[#637587] pt-2 px-3">
-            Extra inventory kept to prevent stockouts due to demand spikes or
-            supply delays.
-          </p>
+            <p className="text-xs text-[#637587] pt-2 px-3">
+              Extra inventory kept to prevent stockouts due to demand spikes or
+              supply delays.
+            </p>
+          </div>
         </div>
       </div>
 

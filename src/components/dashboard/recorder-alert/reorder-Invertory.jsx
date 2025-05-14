@@ -20,8 +20,6 @@ export default function ReorderInvertory() {
       toast.error(err?.data?.error);
     });
   };
-// data?.message?.inventory[0].lead_time
-console.log("data",data?.message?.inventory[0]?.lead_time)
   return (
     <Formik
       initialValues={{
