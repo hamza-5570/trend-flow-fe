@@ -6,7 +6,7 @@ import { useGetInventoryQuery } from "@/lib/services/auth-api";
 
 export default function ReorderInvertory() {
   const [updateInventoryStock,{isLoading}] = useUpdateInventoryStockMutation();
-    const {data,isLoading:loading}=useGetInventoryQuery()
+    const {data,isLoading:loading,refetch}=useGetInventoryQuery()
 
   const handleSubmit = async (values,{resetForm}) => {
     const formdata = new FormData();
@@ -16,6 +16,7 @@ export default function ReorderInvertory() {
     await updateInventoryStock(formdata).unwrap().then((res) => {
       toast.success(res?.message);
       resetForm()
+      refetch()
     }).catch((err) => {
       toast.error(err?.data?.error);
     });
@@ -32,7 +33,7 @@ export default function ReorderInvertory() {
     >
       {(props) => (
         <Form className="w-[90%]" onSubmit={props.handleSubmit}>
-          <ReorderForm isloading={isLoading} />
+          <ReorderForm refetch={refetch} isloading={isLoading} />
         </Form>
       )}
     </Formik>

@@ -5,7 +5,7 @@ import { useGetInventoryQuery } from "@/lib/services/auth-api";
 import { Field, useFormikContext } from "formik";
 import React, { useState } from "react";
 
-export default function ReorderForm({ isloading }) {
+export default function ReorderForm({ isloading,refetch }) {
   const [fileInfo, setFileInfo] = useState(null);
   const { values, setFieldValue } = useFormikContext();
   const handleFileChange = async (e) => {

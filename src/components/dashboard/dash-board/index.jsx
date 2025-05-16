@@ -10,18 +10,22 @@ import OverStockTable from "./overstock-table";
 import Loader from "@/components/common/loader";
 import Mypaginations from "@/components/my-paginations";
 import { useRouter } from "next/router";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export default function Dashboard() {
-    const [filters, setFilters] = useState({
-      page: 1,
-      type: "stockout",
-    });
-    const [filtersoverStock, setFiltersOverStock] = useState({
-      page: 1,
-      type: "overstock",
-    });
-  
+  const [filters, setFilters] = useState({
+    page: 1,
+    type: "stockout",
+  });
+  const [filtersoverStock, setFiltersOverStock] = useState({
+    page: 1,
+    type: "overstock",
+  });
+
   const { data: stockout, isLoading } = useStockOutAlertsQuery(filters);
   const { data: OverstockData, isLoading: overstockLoading } =
     useStockOutAlertsQuery(filtersoverStock);
@@ -42,7 +46,7 @@ export default function Dashboard() {
       <p className="text-[28px] md:text-[32px] text-[#121417] font-bold">
         Hi, let's get started!
       </p>
- 
+
       <div className="mt-6">
         <div>
           <p className="text-[22px] font-bold text-[#121417]">
@@ -68,7 +72,11 @@ export default function Dashboard() {
               </button>
             </div>
           ) : (
-            <StockOutTable stockout={stockout} setFilters={setFilters} filters={filters} />
+            <StockOutTable
+              stockout={stockout}
+              setFilters={setFilters}
+              filters={filters}
+            />
           )}
         </div>
 
@@ -95,7 +103,11 @@ export default function Dashboard() {
               </button>
             </div>
           ) : (
-            <OverStockTable OverstockData={OverstockData} setFiltersOverStock={setFiltersOverStock} filtersoverStock={filtersoverStock} />
+            <OverStockTable
+              OverstockData={OverstockData}
+              setFiltersOverStock={setFiltersOverStock}
+              filtersoverStock={filtersoverStock}
+            />
           )}
         </div>
         <div className="mt-8">
@@ -111,8 +123,14 @@ export default function Dashboard() {
                   <Loader />
                 </div>
               ) : topselling?.data?.length === 0 ? (
-                <div className="h-[300px] items-center justify-center text-sm">
-                  No Selling Found
+                <div className="h-[232px] flex flex-col items-center justify-center border-2 border-dashed border-[#DBE0E5] rounded-xl mt-5 px-3 md:px-0">
+                  <p className="text-lg text-[#121417] font-bold">
+                    No initial Stocks yet
+                  </p>
+
+                  <button onClick={()=>{router.push("/dashboard/reorder-alert")}} className="w-[195px] h-10 bg-[#F0F2F5] rounded-xl text-sm text-[#121417] font-bold cursor-pointer mt-8">
+                    Add Stock
+                  </button>
                 </div>
               ) : (
                 topselling?.data?.map((item, index) => (
