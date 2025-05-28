@@ -3,15 +3,33 @@ import { useDeleteAlertMutation } from "@/lib/services/alerts-api";
 import React from "react";
 import { MdDelete } from "react-icons/md";
 
-export default function TableRow({ item }) {
+export default function TableRow({ item ,selectedStock,setSelectedStock}) {
     const [deleteAlert,{isLoading}]=useDeleteAlertMutation()
-  
+ const handleCheckboxChange = (rowId) => {
+    setSelectedStock((prevSelected) => {
+      if (prevSelected.includes(rowId)) {
+        return prevSelected.filter((id) => id !== rowId);
+      } else {
+        return [...prevSelected, rowId];
+      }
+    });
+  };
   const formatDate = (isoString) => {
     return new Date(isoString)?.toISOString()?.split("T")[0];
   };
   return (
     <div className="min-w-[1000px] flex items-center justify-between border-b border-[#DBE0E5] p-5">
-      <div className="w-[120px] text-sm text-[#121417]">{item?.sku}</div>
+      <div className="w-[20px] text-sm text-[#121417]">
+         <label className="custom-checkbox">
+            <input
+              type="checkbox"
+              checked={selectedStock?.includes(item._id)}
+              onChange={() => handleCheckboxChange(item._id)}
+            />
+            <span className="checkmark"></span>
+          </label>
+      </div>
+      <div className="w-[100px] text-sm text-[#121417]">{item?.sku}</div>
 
       <div title={item?.description} className="w-[200px] text-sm truncate text-[#61788A]">
         {item?.description}

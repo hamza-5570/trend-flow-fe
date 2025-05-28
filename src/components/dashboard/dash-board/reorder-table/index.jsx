@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Loader from "@/components/common/loader";
 import { Button } from "@/components/ui/button";
 
-export default function ReOrderTable({ reorder,setFilters,filters }) {
+export default function ReOrderTable({ reorder,setFilters,filters,setselecteReOrder,selecteReOrder }) {
   const [currentPage, setCurrentPage] = useState(1);
   const { totalPages } = reorder?.data || {};
   const router = useRouter();
@@ -21,14 +21,23 @@ export default function ReOrderTable({ reorder,setFilters,filters }) {
       page: newPage,
     });
   };
-  console.log("reoder totalPages",totalPages)
+ const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      const allAlertsIds = reorder?.data?.alerts?.map((alert) => alert._id);
+      setselecteReOrder(allAlertsIds);
+    } else {
+      setselecteReOrder([]);
+    }
+  };
+  console.log("selecteReOrder", selecteReOrder);
+
   return (
     <div className="overflow-x-auto border border-[#DBE0E5] rounded-xl mt-5">
       <div className="max-w-[300px] xl:max-w-full">
-        <TableHeader />
+        <TableHeader handleSelectAll={handleSelectAll} />
         {reorder?.data?.alerts?.length > 0 ? (
           reorder?.data?.alerts?.map((item, index) => {
-            return <TableRow key={index} item={item} />;
+            return <TableRow selecteReOrder={selecteReOrder} setselecteReOrder={setselecteReOrder} key={index} item={item} />;
           })
         ) : (
           <div className="flex flex-col items-center py-4">

@@ -8,6 +8,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/router";
 import { Provider } from "react-redux";
 import { Toaster } from "sonner";
+import {Toaster as HotToast} from "react-hot-toast"
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
@@ -33,6 +34,7 @@ export default function App({ Component, pageProps }) {
           <Layout>
             <Component {...pageProps} />
             <Toaster richColors position="top-center" />
+            <HotToast />
           </Layout>
         </ThemeProvider>
       </Elements>

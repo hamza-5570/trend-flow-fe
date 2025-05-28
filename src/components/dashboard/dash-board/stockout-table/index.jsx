@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Loader from "@/components/common/loader";
 import { Button } from "@/components/ui/button";
 
-export default function StockOutTable({ stockout ,setFilters,filters}) {
+export default function StockOutTable({ stockout ,setFilters,filters,setSelectedStock,selectedStock}) {
   const [currentPage, setCurrentPage] = useState(1);
   const {totalPages}=stockout?.data || {}
   const router=useRouter()
@@ -20,12 +20,20 @@ export default function StockOutTable({ stockout ,setFilters,filters}) {
       query: { ...router.query, page: newPage }, // Merge existing and new query args
     });
   };
+    const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      const allAlertsIds = stockout?.data?.alerts?.map((alert) => alert._id);
+      setSelectedStock(allAlertsIds);
+    } else {
+      setSelectedStock([]);
+    }
+  };
   return (
     <div className="overflow-x-auto border border-[#DBE0E5] rounded-xl mt-5">
       <div className="max-w-[300px] xl:max-w-full">
-        <TableHeader />
+        <TableHeader handleSelectAll={handleSelectAll}  />
         {stockout?.data?.alerts?.length>0 ? stockout?.data?.alerts?.map((item, index) => {
-          return ( <TableRow key={index} item={item} /> )
+          return ( <TableRow selectedStock={selectedStock} setSelectedStock={setSelectedStock} key={index} item={item} /> )
          }):<div className="flex flex-col items-center py-4">
           <p className="text-center text-primary mt-4  font-bold">No Stockout alerts yet</p>
           <p className="text-center text-primary my-4">when items are runninglow, we'll notify you here</p>

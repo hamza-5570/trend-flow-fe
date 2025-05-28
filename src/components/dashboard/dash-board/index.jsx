@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import TableHeader from "./table/table-header";
 import TableRow from "./table/table-row";
 import {
+  useDeleteAllAlertsMutation,
+  useDeleteAllSaleMutation,
   useStockOutAlertsQuery,
   useTopSellingsQuery,
 } from "@/lib/services/alerts-api";
@@ -15,6 +17,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { ChevronRight, Trash } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function Dashboard() {
   const [filters, setFilters] = useState({
@@ -32,7 +37,13 @@ export default function Dashboard() {
   const { data: topselling, isLoading: topLoading } = useTopSellingsQuery();
   const [currentPage, setCurrentPage] = useState(1);
   const { totalPages } = topselling?.data?.pagination || {};
+  const [deleteAllAlerts,{isLoading:isloading}]=useDeleteAllAlertsMutation()
+  const [deleteAllSale,{isLoading:isloadingSale}]=useDeleteAllSaleMutation()
   const router = useRouter();
+  const [selectedStock, setSelectedStock] = useState([]);
+  const [selectedOverStock, setSelectedOverStock] = useState([]);
+  const [selectedTopSelling, setselectedTopSelling] = useState([]);
+
 
   const onPageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -41,6 +52,51 @@ export default function Dashboard() {
       query: { ...router.query, page: newPage }, // Merge existing and new query args
     });
   };
+  // Delete all Stockout
+  const handleDeleteAllStockOut = async() => {
+   const result=await deleteAllAlerts({
+      type:"stockout",
+      ids:selectedStock
+    }).unwrap()
+    if(result.success){
+     toast.success("Stockout alerts deleted successfully"); 
+     setSelectedStock([])
+    }  
+  };
+
+  // Delete all OverStock
+   const handleDeleteAllOverStock = async() => {
+   const result=await deleteAllAlerts({
+      type:"overstock",
+      ids:selectedOverStock
+    }).unwrap()
+    if(result.success){
+     toast.success("Stockout alerts deleted successfully"); 
+     setSelectedStock([])
+    }  
+  };
+
+  // Delete all Top Selling
+ 
+  const handleDeleteAllTopSelling = async() => {
+   const result=await deleteAllSale({
+      skus:selectedTopSelling
+    }).unwrap()
+    if(result.success){
+     toast.success("Top Selling deleted successfully"); 
+     setselectedTopSelling([])
+    }  
+  };
+
+   const handleSelectAllTopSelling = (e) => {
+    if (e.target.checked) {
+      const allSkuIds = topselling?.data?.map((sell) => sell.sku);
+      setselectedTopSelling(allSkuIds);
+    } else {
+      setselectedTopSelling([]);
+    }
+  };
+  console.log("selectedTopSelling",selectedTopSelling)
   return (
     <div className="font-sans">
       <p className="text-[28px] md:text-[32px] text-[#121417] font-bold">
@@ -49,9 +105,14 @@ export default function Dashboard() {
 
       <div className="mt-6">
         <div>
-          <p className="text-[22px] font-bold text-[#121417]">
-            Stockout Alerts
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="text-[22px] font-bold text-[#121417]">
+              Stockout Alerts
+            </p>
+            <Button onClick={handleDeleteAllStockOut} variant="outline" className={"cursor-pointer"} >
+                 {isloading ? <Loader /> : <span className="flex items-center gap-2"> <Trash size={20} />  Delete All</span>}                 
+            </Button>
+          </div>
 
           {isLoading ? (
             <div className="h-[300px] flex items-center justify-center">
@@ -76,14 +137,22 @@ export default function Dashboard() {
               stockout={stockout}
               setFilters={setFilters}
               filters={filters}
+              setSelectedStock={setSelectedStock}
+              selectedStock={selectedStock}
             />
           )}
         </div>
 
         <div className="mt-8">
-          <p className="text-[22px] font-bold text-[#121417]">
-            Overstock Alerts
-          </p>
+        
+          <div className="flex items-center justify-between">
+            <p className="text-[22px] font-bold text-[#121417]">
+              Overstock Alerts
+            </p>
+            <Button onClick={handleDeleteAllOverStock} variant="outline" className={"cursor-pointer"} >
+                 {isloading ? <Loader /> : <span className="flex items-center gap-2"> <Trash size={20} />  Delete All</span>}                 
+            </Button>
+          </div>
           {overstockLoading ? (
             <div className="h-[300px] flex items-center justify-center">
               <Loader />
@@ -107,17 +176,25 @@ export default function Dashboard() {
               OverstockData={OverstockData}
               setFiltersOverStock={setFiltersOverStock}
               filtersoverStock={filtersoverStock}
+              selectedOverStock={selectedOverStock}
+              setSelectedOverStock={setSelectedOverStock}
             />
           )}
         </div>
         <div className="mt-8">
-          <p className="text-[22px] font-bold text-[#121417]">
-            Top Selling SKUs
-          </p>
+          
+            <div className="flex items-center justify-between">
+            <p className="text-[22px] font-bold text-[#121417]">
+               Top Selling SKUs
+            </p>
+            <Button onClick={handleDeleteAllTopSelling} variant="outline" className={"cursor-pointer"} >
+                 {isloadingSale ? <Loader /> : <span className="flex items-center gap-2"> <Trash size={20} />  Delete All</span>}                 
+            </Button>
+          </div>
 
           <div className="overflow-x-auto border border-[#DBE0E5] rounded-xl mt-5">
             <div className="max-w-[300px] xl:max-w-full">
-              <TableHeader />
+              <TableHeader handleSelectAllTopSelling={handleSelectAllTopSelling}  />
               {topLoading ? (
                 <div className="h-[300px] flex items-center justify-center">
                   <Loader />
@@ -128,13 +205,18 @@ export default function Dashboard() {
                     No initial Stocks yet
                   </p>
 
-                  <button onClick={()=>{router.push("/dashboard/reorder-alert")}} className="w-[195px] h-10 bg-[#F0F2F5] rounded-xl text-sm text-[#121417] font-bold cursor-pointer mt-8">
+                  <button
+                    onClick={() => {
+                      router.push("/dashboard/reorder-alert");
+                    }}
+                    className="w-[195px] h-10 bg-[#F0F2F5] rounded-xl text-sm text-[#121417] font-bold cursor-pointer mt-8"
+                  >
                     Add Stock
                   </button>
                 </div>
               ) : (
                 topselling?.data?.map((item, index) => (
-                  <TableRow key={index} item={item} />
+                  <TableRow selectedTopSelling={selectedTopSelling} setselectedTopSelling={setselectedTopSelling} key={index} item={item} />
                 ))
               )}
 

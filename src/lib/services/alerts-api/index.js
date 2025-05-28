@@ -31,6 +31,8 @@ const alertsApi = createApi({
         url: `/sale/top-selling-products`,
         method: "GET",
       }),
+      providesTags: ["alerts"],
+      
     }),
     getFilterData: builder.query({
       query: ({ sku, category, from, to }) => ({
@@ -84,6 +86,14 @@ const alertsApi = createApi({
       }),
       invalidatesTags: ["forcast"],
     }),
+    deleteAllForcast: builder.mutation({
+      query: (ids) => ({
+        url: `/forcast/allDelete`,
+        method: "DELETE",
+        body: ids,
+      }),
+      invalidatesTags: ["forcast"],
+    }),
     deleteAlert: builder.mutation({
       query: ({id,type}) => {
       console.log("id",id,"type",type)  
@@ -94,7 +104,22 @@ const alertsApi = createApi({
       },
       invalidatesTags: ["alerts"],
     }),
-
+    deleteAllAlerts: builder.mutation({
+      query: ({type,ids}) => ({
+        url: `/alert/allDelete`,
+        method: "DELETE",
+        body:{type,ids}
+      }),
+      invalidatesTags: ["alerts"],
+    }),
+    deleteAllSale: builder.mutation({
+      query: (skus) => ({
+        url: `/sale/allDelete`,
+        method: "DELETE",
+        body: skus,
+      }),
+      invalidatesTags: ["alerts"],
+    }),
     getNotifications: builder.query({
       query: () => ({
         url: `/notification/all`,
@@ -121,7 +146,10 @@ export const {
   useUpdateStockMutation,
   useDeleteForcastMutation,
   useGetforcastQuery,
+  useDeleteAllAlertsMutation,
   useDeleteAlertMutation,
+  useDeleteAllForcastMutation,
+  useDeleteAllSaleMutation,
   useUpdateNotificationMutation,
   useUpdateInventoryStockMutation,
   middleware: alertsApiMiddleware,

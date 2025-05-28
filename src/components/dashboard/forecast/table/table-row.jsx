@@ -3,10 +3,29 @@ import { useDeleteForcastMutation } from "@/lib/services/alerts-api";
 import React from "react";
 import { MdDelete } from "react-icons/md";
 
-export default function TableRow({ data }) {
+export default function TableRow({ data,setselectedForecast,selectedForecast }) {
   const [deleteForcast, { isLoading }] = useDeleteForcastMutation();
+  const handleCheckboxChange = (rowId) => {
+    setselectedForecast((prevSelected) => {
+      if (prevSelected.includes(rowId)) {
+        return prevSelected.filter((id) => id !== rowId);
+      } else {
+        return [...prevSelected, rowId];
+      }
+    });
+  };
   return (
     <div className="min-w-[1000px] flex items-center justify-between border-b border-[#DBE0E5] p-5">
+       <div className="w-[20px] text-sm text-[#121417]">
+         <label className="custom-checkbox">
+            <input
+              type="checkbox"
+              checked={selectedForecast?.includes(data._id)}
+              onChange={() => handleCheckboxChange(data._id)}
+            />
+            <span className="checkmark"></span>
+          </label>
+      </div>
       <div className="w-[100px] text-sm text-[#121417]">#{data?.sku}</div>
 
       <div title={data?.description} className="w-[160px] text-sm text-[#61788A] truncate">

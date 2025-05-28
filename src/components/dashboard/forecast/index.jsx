@@ -3,28 +3,19 @@ import TableHeader from "./table/table-header";
 import TableRow from "./table/table-row";
 import { Field, Form, Formik } from "formik";
 import InputFiled from "@/components/input-filed";
-import DatePickerPopover from "@/components/Date-single-picker-input";
 import { Button } from "@/components/ui/button";
 import {
+  useDeleteAllForcastMutation,
   useGetforcastQuery,
   useLazyGetFilterDataQuery,
 } from "@/lib/services/alerts-api";
 import { format } from "date-fns";
 import { toast } from "sonner";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useGetCategoryQuery } from "@/lib/services/product-api";
 import Loader from "@/components/common/loader";
 import dateFormat from "dateformat";
 import Mypaginations from "@/components/my-paginations";
 import { useRouter } from "next/router";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Trash } from "lucide-react";
 
 import { Calendar } from "@/components/ui/calendar";
 import { addDays } from "date-fns";
@@ -40,14 +31,16 @@ export default function ForeCast() {
   const [filters, setFilters] = useState({
     page: 1,
   });
+  const [selectedForecast, setselectedForecast] = useState([]);
+  const [deleteAllForcast,{isLoading:deleteAllForcastLoading}]=useDeleteAllForcastMutation()
+
   const { isLoading, data, refetch } = useGetforcastQuery(filters);
   const { totalPages } = data?.data || {};
   const router = useRouter();
   const [date, setDate] = React.useState({
-    from: new Date(),
-    to: new Date(),
+    from: null,
+    to: null,
   });
-  console.log("date..................", date);
   const onPageChange = (newPage) => {
     setCurrentPage(newPage);
 
@@ -60,7 +53,25 @@ export default function ForeCast() {
       page: newPage,
     });
   };
-  console.log("filters", filters);
+  // Delete all OverStock
+  const handleDeleteAllForecast = async () => {
+     const result=await deleteAllForcast({
+        ids:selectedForecast
+      }).unwrap()
+    if(result.success){
+     toast.success("forecast deleted successfully");
+     setselectedForecast([])
+    }
+  };
+
+  const handleSelectAllForcast = (e) => {
+    if (e.target.checked) {
+      const allForcastIds = data?.data?.forcast?.map((forcast) => forcast._id);
+      setselectedForecast(allForcastIds);
+    } else {
+      setselectedForecast([]);
+    }
+  };
 
   return (
     <div>
@@ -75,11 +86,10 @@ export default function ForeCast() {
           endDate: "",
         }}
         onSubmit={async (values) => {
-          console.log("values", values);
           try {
-            const { sku, description, startDate, endDate } = values;
-            const from = dateFormat(new Date(date.from), "yyyy-mm-dd");
-            const to = dateFormat(new Date(date.to), "yyyy-mm-dd");
+            const { sku, description } = values;
+            const from = date.from ? dateFormat(date.from, "yyyy-mm-dd") : null;
+            const to = date.to ? dateFormat(new Date(date.to), "yyyy-mm-dd") : null;
 
             if (sku || description || from) {
               setFilters((prevFilters) => ({
@@ -180,6 +190,7 @@ export default function ForeCast() {
                   setFilters({
                     page: 1,
                   });
+
                   props.resetForm();
                   setTimeout(() => {
                     refetch();
@@ -193,17 +204,29 @@ export default function ForeCast() {
           </Form>
         )}
       </Formik>
-
+      <div className="flex items-center justify-end">
+        <Button
+          onClick={handleDeleteAllForecast}
+          variant="outline"
+          className={"cursor-pointer"}
+        >
+          {deleteAllForcastLoading ? <Loader /> : 
+          <span className="flex items-center gap-2">
+            <Trash size={20} /> Delete All
+          </span>
+          }   
+        </Button>
+      </div>
       <div className="overflow-x-auto border border-[#DBE0E5] rounded-xl mt-5">
         <div className="max-w-[300px] xl:max-w-full">
-          <TableHeader />
+          <TableHeader handleSelectAllForcast={handleSelectAllForcast} />
           {isLoading ? (
             <div className="flex justify-center py-5">
               {" "}
               <Loader />
             </div>
           ) : data?.data?.forcast?.length > 0 ? (
-            data?.data?.forcast?.map((item) => <TableRow data={item} />)
+            data?.data?.forcast?.map((item) => <TableRow setselectedForecast={setselectedForecast} key={item._id} selectedForecast={selectedForecast} data={item} />)
           ) : (
             <p className="flex justify-center py-5 text-sm text-[#121417] ">
               No data found
