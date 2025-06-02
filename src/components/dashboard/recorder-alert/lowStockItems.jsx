@@ -78,6 +78,7 @@ export default function LowStockItems() {
             onClick={handleDeleteAllReorder}
             variant="outline"
             className={"cursor-pointer"}
+            disabled={selecteReOrder.length === 0}
           >
             {isloadingAlerts ? (
               <Loader />

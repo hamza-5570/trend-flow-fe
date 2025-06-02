@@ -209,6 +209,7 @@ export default function ForeCast() {
           onClick={handleDeleteAllForecast}
           variant="outline"
           className={"cursor-pointer"}
+          disabled={selectedForecast.length === 0}
         >
           {deleteAllForcastLoading ? <Loader /> : 
           <span className="flex items-center gap-2">

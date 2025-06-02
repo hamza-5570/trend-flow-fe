@@ -109,7 +109,7 @@ export default function Dashboard() {
             <p className="text-[22px] font-bold text-[#121417]">
               Stockout Alerts
             </p>
-            <Button onClick={handleDeleteAllStockOut} variant="outline" className={"cursor-pointer"} >
+            <Button disabled={selectedStock.length===0} onClick={handleDeleteAllStockOut} variant="outline" className={"cursor-pointer"} >
                  {isloading ? <Loader /> : <span className="flex items-center gap-2"> <Trash size={20} />  Delete All</span>}                 
             </Button>
           </div>
@@ -149,7 +149,7 @@ export default function Dashboard() {
             <p className="text-[22px] font-bold text-[#121417]">
               Overstock Alerts
             </p>
-            <Button onClick={handleDeleteAllOverStock} variant="outline" className={"cursor-pointer"} >
+            <Button disabled={selectedOverStock.length===0} onClick={handleDeleteAllOverStock} variant="outline" className={"cursor-pointer"} >
                  {isloading ? <Loader /> : <span className="flex items-center gap-2"> <Trash size={20} />  Delete All</span>}                 
             </Button>
           </div>
@@ -187,7 +187,7 @@ export default function Dashboard() {
             <p className="text-[22px] font-bold text-[#121417]">
                Top Selling SKUs
             </p>
-            <Button onClick={handleDeleteAllTopSelling} variant="outline" className={"cursor-pointer"} >
+            <Button disabled={selectedTopSelling.length===0} onClick={handleDeleteAllTopSelling} variant="outline" className={"cursor-pointer"} >
                  {isloadingSale ? <Loader /> : <span className="flex items-center gap-2"> <Trash size={20} />  Delete All</span>}                 
             </Button>
           </div>
