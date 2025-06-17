@@ -12,14 +12,17 @@ import OverStockTable from "./overstock-table";
 import Loader from "@/components/common/loader";
 import Mypaginations from "@/components/my-paginations";
 import { useRouter } from "next/router";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, Trash } from "lucide-react";
+import {
+  AlertCircleIcon,
+  CheckCircle2Icon,
+  ChevronRight,
+  Trash,
+  Cross,
+  X
+} from "lucide-react";
 import toast from "react-hot-toast";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function Dashboard() {
   const [filters, setFilters] = useState({
@@ -36,14 +39,16 @@ export default function Dashboard() {
     useStockOutAlertsQuery(filtersoverStock);
   const { data: topselling, isLoading: topLoading } = useTopSellingsQuery();
   const [currentPage, setCurrentPage] = useState(1);
+  const [IsShowAlert, setIsShowAlert] = useState(true);
   const { totalPages } = topselling?.data?.pagination || {};
-  const [deleteAllAlerts,{isLoading:isloading}]=useDeleteAllAlertsMutation()
-  const [deleteAllSale,{isLoading:isloadingSale}]=useDeleteAllSaleMutation()
+  const [deleteAllAlerts, { isLoading: isloading }] =
+    useDeleteAllAlertsMutation();
+  const [deleteAllSale, { isLoading: isloadingSale }] =
+    useDeleteAllSaleMutation();
   const router = useRouter();
   const [selectedStock, setSelectedStock] = useState([]);
   const [selectedOverStock, setSelectedOverStock] = useState([]);
   const [selectedTopSelling, setselectedTopSelling] = useState([]);
-
 
   const onPageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -53,42 +58,42 @@ export default function Dashboard() {
     });
   };
   // Delete all Stockout
-  const handleDeleteAllStockOut = async() => {
-   const result=await deleteAllAlerts({
-      type:"stockout",
-      ids:selectedStock
-    }).unwrap()
-    if(result.success){
-     toast.success("Stockout alerts deleted successfully"); 
-     setSelectedStock([])
-    }  
+  const handleDeleteAllStockOut = async () => {
+    const result = await deleteAllAlerts({
+      type: "stockout",
+      ids: selectedStock,
+    }).unwrap();
+    if (result.success) {
+      toast.success("Stockout alerts deleted successfully");
+      setSelectedStock([]);
+    }
   };
 
   // Delete all OverStock
-   const handleDeleteAllOverStock = async() => {
-   const result=await deleteAllAlerts({
-      type:"overstock",
-      ids:selectedOverStock
-    }).unwrap()
-    if(result.success){
-     toast.success("Stockout alerts deleted successfully"); 
-     setSelectedStock([])
-    }  
+  const handleDeleteAllOverStock = async () => {
+    const result = await deleteAllAlerts({
+      type: "overstock",
+      ids: selectedOverStock,
+    }).unwrap();
+    if (result.success) {
+      toast.success("Stockout alerts deleted successfully");
+      setSelectedStock([]);
+    }
   };
 
   // Delete all Top Selling
- 
-  const handleDeleteAllTopSelling = async() => {
-   const result=await deleteAllSale({
-      skus:selectedTopSelling
-    }).unwrap()
-    if(result.success){
-     toast.success("Top Selling deleted successfully"); 
-     setselectedTopSelling([])
-    }  
+
+  const handleDeleteAllTopSelling = async () => {
+    const result = await deleteAllSale({
+      skus: selectedTopSelling,
+    }).unwrap();
+    if (result.success) {
+      toast.success("Top Selling deleted successfully");
+      setselectedTopSelling([]);
+    }
   };
 
-   const handleSelectAllTopSelling = (e) => {
+  const handleSelectAllTopSelling = (e) => {
     if (e.target.checked) {
       const allSkuIds = topselling?.data?.map((sell) => sell.sku);
       setselectedTopSelling(allSkuIds);
@@ -96,9 +101,22 @@ export default function Dashboard() {
       setselectedTopSelling([]);
     }
   };
-  console.log("selectedTopSelling",selectedTopSelling)
+  console.log("selectedTopSelling", selectedTopSelling);
   return (
     <div className="font-sans">
+      {IsShowAlert &&  <Alert className="mb-5 shadow-lg relative  border-blue-500" title="Success Alert">
+        <AlertCircleIcon />
+        <AlertTitle>Remember: Check This Before Moving Forward.</AlertTitle>
+        <AlertDescription>
+          If the updates are not visible, please refresh the page. Ensure data
+          is uploaded on both the Sales Data and Reorder Alerts pages before
+          checking forecasts.
+        </AlertDescription>
+           <X onClick={() => setIsShowAlert(false)} title="Close" className="absolute top-2 right-2 border rounded-full border-black hover:bg-black hover:text-white cursor-pointer"/>
+
+      </Alert>
+      }
+
       <p className="text-[28px] md:text-[32px] text-[#121417] font-bold">
         Hi, let's get started!
       </p>
@@ -109,8 +127,20 @@ export default function Dashboard() {
             <p className="text-[22px] font-bold text-[#121417]">
               Stockout Alerts
             </p>
-            <Button disabled={selectedStock.length===0} onClick={handleDeleteAllStockOut} variant="outline" className={"cursor-pointer"} >
-                 {isloading ? <Loader /> : <span className="flex items-center gap-2"> <Trash size={20} />  Delete All</span>}                 
+            <Button
+              disabled={selectedStock.length === 0}
+              onClick={handleDeleteAllStockOut}
+              variant="outline"
+              className={"cursor-pointer"}
+            >
+              {isloading ? (
+                <Loader />
+              ) : (
+                <span className="flex items-center gap-2">
+                  {" "}
+                  <Trash size={20} /> Delete All
+                </span>
+              )}
             </Button>
           </div>
 
@@ -144,13 +174,24 @@ export default function Dashboard() {
         </div>
 
         <div className="mt-8">
-        
           <div className="flex items-center justify-between">
             <p className="text-[22px] font-bold text-[#121417]">
               Overstock Alerts
             </p>
-            <Button disabled={selectedOverStock.length===0} onClick={handleDeleteAllOverStock} variant="outline" className={"cursor-pointer"} >
-                 {isloading ? <Loader /> : <span className="flex items-center gap-2"> <Trash size={20} />  Delete All</span>}                 
+            <Button
+              disabled={selectedOverStock.length === 0}
+              onClick={handleDeleteAllOverStock}
+              variant="outline"
+              className={"cursor-pointer"}
+            >
+              {isloading ? (
+                <Loader />
+              ) : (
+                <span className="flex items-center gap-2">
+                  {" "}
+                  <Trash size={20} /> Delete All
+                </span>
+              )}
             </Button>
           </div>
           {overstockLoading ? (
@@ -182,19 +223,32 @@ export default function Dashboard() {
           )}
         </div>
         <div className="mt-8">
-          
-            <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between">
             <p className="text-[22px] font-bold text-[#121417]">
-               Top Selling SKUs
+              Top Selling SKUs
             </p>
-            <Button disabled={selectedTopSelling.length===0} onClick={handleDeleteAllTopSelling} variant="outline" className={"cursor-pointer"} >
-                 {isloadingSale ? <Loader /> : <span className="flex items-center gap-2"> <Trash size={20} />  Delete All</span>}                 
+            <Button
+              disabled={selectedTopSelling.length === 0}
+              onClick={handleDeleteAllTopSelling}
+              variant="outline"
+              className={"cursor-pointer"}
+            >
+              {isloadingSale ? (
+                <Loader />
+              ) : (
+                <span className="flex items-center gap-2">
+                  {" "}
+                  <Trash size={20} /> Delete All
+                </span>
+              )}
             </Button>
           </div>
 
           <div className="overflow-x-auto border border-[#DBE0E5] rounded-xl mt-5">
             <div className="max-w-[300px] xl:max-w-full">
-              <TableHeader handleSelectAllTopSelling={handleSelectAllTopSelling}  />
+              <TableHeader
+                handleSelectAllTopSelling={handleSelectAllTopSelling}
+              />
               {topLoading ? (
                 <div className="h-[300px] flex items-center justify-center">
                   <Loader />
@@ -216,7 +270,12 @@ export default function Dashboard() {
                 </div>
               ) : (
                 topselling?.data?.map((item, index) => (
-                  <TableRow selectedTopSelling={selectedTopSelling} setselectedTopSelling={setselectedTopSelling} key={index} item={item} />
+                  <TableRow
+                    selectedTopSelling={selectedTopSelling}
+                    setselectedTopSelling={setselectedTopSelling}
+                    key={index}
+                    item={item}
+                  />
                 ))
               )}
 

@@ -15,8 +15,8 @@ export default function ReorderInvertory() {
     formdata.append("safety_stock", values.safety_stock);
     await updateInventoryStock(formdata).unwrap().then((res) => {
       toast.success(res?.message);
+      
       resetForm()
-      refetch()
     }).catch((err) => {
       toast.error(err?.data?.error);
     });

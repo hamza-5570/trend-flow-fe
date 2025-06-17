@@ -27,7 +27,7 @@ export default function ReorderForm({ isloading,refetch }) {
         Reorder Alerts
       </p>
 
-      <div className="mt-6 grid grid-cols-2 gap-5">
+      <div className="mt-6 grid sm:grid-cols-2 grid-cols-1 gap-5">
         <div>
           <div>
             <p className="text-base text-[#121417] font-medium">Lead Time</p>

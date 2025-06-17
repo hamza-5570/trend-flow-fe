@@ -42,8 +42,7 @@ export default function AuthLayout({ children }) {
             </div>
 
             <p className="text-xl md:text-[27px] text-white pt-10 md:pt-16">
-              Start your 7-day free trial. only $15 per month after. No credit
-              card required. Start optimizing your inventory today.
+               Start optimizing your inventory today.
             </p>
           </div>
         </div>

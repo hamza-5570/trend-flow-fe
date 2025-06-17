@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import DownloadTemplate from "@/components/download-template";
 import {
   Popover,
   PopoverContent,
@@ -9,6 +9,8 @@ import {
   useGetNotificationsQuery,
   useUpdateNotificationMutation,
 } from "@/lib/services/alerts-api";
+import { IconButton, Tooltip } from "@mui/material";
+import {  Download } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -21,7 +23,6 @@ export default function Navbar({ handleDrawer, open, data }) {
   const router = useRouter();
   const [routeName, setRouteName] = useState("");
   const { data: notification, isLoading } = useGetNotificationsQuery();
-
 
   useEffect(() => {
     if (router.isReady) {
@@ -44,8 +45,6 @@ export default function Navbar({ handleDrawer, open, data }) {
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
   };
-
- 
 
   const handlelogout = async () => {
     localStorage.clear();
@@ -85,7 +84,11 @@ export default function Navbar({ handleDrawer, open, data }) {
             className="absolute top-3 left-4"
           />
         </div>
+        <div className="border borer-[#D9D9D9] rounded-full p-[3px]">
 
+       <DownloadTemplate/>
+        </div>
+       
         <Popover>
           <PopoverTrigger asChild>
             <button variant="outline">
@@ -122,8 +125,7 @@ export default function Navbar({ handleDrawer, open, data }) {
                           {new Date(notification?.createdAt).getHours()} hours
                           ago
                         </p>
-                        <UpdateNotify notification={notification}/>
-                       
+                        <UpdateNotify notification={notification} />
                       </li>
                     </>
                   ))}

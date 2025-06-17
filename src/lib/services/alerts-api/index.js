@@ -57,6 +57,7 @@ const alertsApi = createApi({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["alerts"],
     }),
     updateInventoryStock: builder.mutation({
       query: (data) => ({
@@ -64,6 +65,7 @@ const alertsApi = createApi({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["alerts"],
     }),
     getLowStock: builder.query({
       query: () => ({
@@ -78,6 +80,7 @@ const alertsApi = createApi({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["alerts"],
     }),
     deleteForcast: builder.mutation({
       query: (id) => ({

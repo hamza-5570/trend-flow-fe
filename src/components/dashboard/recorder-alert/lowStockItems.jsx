@@ -40,22 +40,7 @@ export default function LowStockItems() {
     }
   }, [data]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const res = await updateStock({ update: cart }).unwrap();
-    if (res) {
-      toast.success(res?.message);
-      const newData = data?.map((item) => {
-        return {
-          product: item?.product?._id,
-          stock: 0,
-        };
-      });
-      setCart(newData);
-      setResetQuantity(true);
-      refetch();
-    }
-  };
+ 
 
   const handleDeleteAllReorder = async () => {
     const result = await deleteAllAlerts({
@@ -67,6 +52,7 @@ export default function LowStockItems() {
       setselecteReOrder([]);
     }
   };
+  console.log('reorder................',reorder)
 
   return (
     <div className="mt-15">
