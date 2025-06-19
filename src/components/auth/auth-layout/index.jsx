@@ -12,7 +12,7 @@ export default function AuthLayout({ children }) {
 
           <div className="pt-5 md:pt-16">
             <p className="text-lg/relaxed md:text-2xl/relaxed font-medium text-white">
-              AI-Powered Forecasting Build for Small Fashion Brands
+              AI-Powered Forecasting Built for Small Fashion Brands
             </p>
 
             <p className="text-sm/relaxed md:text-base/relaxed text-white pt-3 md:pt-6">
