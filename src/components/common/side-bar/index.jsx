@@ -19,15 +19,16 @@ const menuItems = [
     link: "/dashboard/upload-sales-data",
   },
   {
+    title: "Reorder Alerts",
+    icon: <RxDashboard size={22} />,
+    link: "/dashboard/reorder-alerts",
+  },
+  {
     title: "Forecast",
     icon: <RxDashboard size={22} />,
     link: "/dashboard/forecast",
   },
-  {
-    title: "Reorder Alert",
-    icon: <RxDashboard size={22} />,
-    link: "/dashboard/reorder-alert",
-  },
+
   // {
   //   title: "Settings",
   //   icon: <RxDashboard size={22} />,
