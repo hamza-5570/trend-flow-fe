@@ -7,7 +7,9 @@ export default function TableHeader() {
 
       <div className="w-[226px] text-sm text-[#121417] font-medium">SKU</div>
 
-      <div className="w-[229px] text-sm text-[#121417] font-medium">Units</div>
+      <div className="w-[229px] text-sm text-[#121417] font-medium">
+        Units Sold
+      </div>
 
       <div className="w-[240px] text-sm text-[#121417] font-medium">
         Revenue

@@ -1,10 +1,10 @@
-import RecorderAlert from "@/components/dashboard/recorder-alert";
+import RecorderAlerts from "@/components/dashboard/recorder-alerts";
 import React from "react";
 
 export default function index() {
   return (
     <>
-      <RecorderAlert />
+      <RecorderAlerts />
     </>
   );
 }
