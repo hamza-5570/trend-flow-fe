@@ -10,12 +10,8 @@ export default function TableHeader() {
       <div className="w-[200px] text-sm text-[#121417] font-medium">
         ProductTitle
       </div>
-       <div className="w-[100px] text-sm text-[#121417] font-medium">
-        Price
-      </div>
-       <div className="w-[100px] text-sm text-[#121417] font-medium">
-        Inventory Total
-      </div>
+      <div className="w-[100px] text-sm text-[#121417] font-medium">Price</div>
+      <div className="w-[100px] text-sm text-[#121417] font-medium">Stock</div>
     </div>
   );
 }
