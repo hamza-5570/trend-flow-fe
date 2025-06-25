@@ -14,15 +14,15 @@ export default function TableRow({ item }) {
   };
 
   return (
-    <div className="min-w-[1000px] flex items-center justify-between border-b border-[#DBE0E5] p-5">
-      <div className="w-[231px] text-sm text-[#61788A]">
+    <div className="min-w-[800px] flex items-center justify-between border-b border-[#DBE0E5] p-5">
+      <div className="w-[200px] text-sm text-[#61788A]">
         {formatDate(SaleDate)}
       </div>
 
-      <div className="w-[226px] text-sm text-[#61788A]">{SKU}</div>
+      <div className="w-[200px] text-sm text-[#61788A]">{SKU}</div>
 
-      <div className="w-[229px] text-sm text-[#61788A]">{UnitsSold}</div>
-      <div className="w-[240px] text-sm text-[#61788A]">${Sales}</div>
+      <div className="w-[200px] text-sm text-[#61788A]">{UnitsSold}</div>
+      <div className="w-[200px] text-sm text-[#61788A]">${Sales}</div>
     </div>
   );
 }

@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { useGetInventoryQuery } from "@/lib/services/auth-api";
 import { Field, useFormikContext } from "formik";
 import React, { useState } from "react";
-import TableHeader from "./table/table-header";
-import TableRow from "./table/table-row";
 import { useCreateProductMutation } from "@/lib/services/product-api";
 import * as XLSX from "xlsx";
+import TableHeader from "../upload-sales-data/table/table-header";
+import TableRow from "../upload-sales-data/table/table-row";
 
 export default function ReorderForm({ isloading, refetch }) {
   const [fileInfo, setFileInfo] = useState(null);
