@@ -32,7 +32,7 @@ export default function ReorderInvertory() {
       onSubmit={handleSubmit}
     >
       {(props) => (
-        <Form className="w-[90%]" onSubmit={props.handleSubmit}>
+        <Form className="w-full" onSubmit={props.handleSubmit}>
           <ReorderForm refetch={refetch} isloading={isLoading} />
         </Form>
       )}

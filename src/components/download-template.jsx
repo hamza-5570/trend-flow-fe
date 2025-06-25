@@ -1,30 +1,12 @@
 import React, { useState, useCallback } from "react";
 import { CSVLink } from "react-csv";
-import sampleData from "../data/sample-data.json";
 import { IconButton, Tooltip } from "@mui/material";
 import { Download } from "lucide-react";
-const DownloadTemplate = () => {
+const DownloadTemplate = ({data,headers}) => {
   return (
     <CSVLink
-      data={sampleData}
-      headers={[
-        { label: "SKU", key: "SKU" },
-        { label: "ProductId", key: "Productid" },
-        { label: "OrderId", key: "OrderId" },
-        { label: "UnitsSold", key: "UnitsSold" },
-        { label: "Sales", key: "Sales" },
-        { label: "SaleDate", key: "SaleDate" },
-        { label: "CurrentInventory", key: "CurrentInventory" },
-        { label: "ReorderPoint", key: "ReorderPoint" },
-        { label: "Size", key: "Size" },
-        { label: "Color", key: "Color" },
-        { label: "ProductTitle", key: "ProductTitle" },
-        { label: "Category", key: "Category" },
-        { label: "Subcategory", key: "Subcategory" },
-        { label: "Material", key: "Material" },
-        { label: "Gender_Age", key: "Gender_Age" },
-        { label: "Price", key: "Price" },
-      ]}
+      data={data}
+      headers={headers}
     >
       {/* <Button
         type="button"

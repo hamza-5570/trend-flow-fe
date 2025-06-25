@@ -84,10 +84,7 @@ export default function Navbar({ handleDrawer, open, data }) {
             className="absolute top-3 left-4"
           />
         </div>
-        <div className="border borer-[#D9D9D9] rounded-full p-[3px]">
-
-       <DownloadTemplate/>
-        </div>
+       
        
         <Popover>
           <PopoverTrigger asChild>

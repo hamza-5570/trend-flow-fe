@@ -6,8 +6,24 @@ import { Field, useFormikContext } from "formik";
 import React, { useState } from "react";
 import { useCreateProductMutation } from "@/lib/services/product-api";
 import * as XLSX from "xlsx";
-import TableHeader from "../upload-sales-data/table/table-header";
-import TableRow from "../upload-sales-data/table/table-row";
+import DownloadTemplate from "@/components/download-template";
+import sampleData from "../../../data/reorder-data.json";
+import TableHeader from "./table/table-header";
+import TableRow from "./table/table-row";
+
+const headerData = [
+  { label: "SKU", key: "SKU" },
+  { label: "ProductId", key: "Productid" },
+  { label: "Size", key: "Size" },
+  { label: "Color", key: "Color" },
+  { label: "ProductTitle", key: "ProductTitle" },
+  { label: "Category", key: "Category" },
+  { label: "Subcategory", key: "Subcategory" },
+  { label: "Material", key: "Material" },
+  { label: "Gender_Age", key: "Gender_Age" },
+  { label: "Inventory_Total", key: "Inventory_Total" },
+  { label: "Price", key: "Price" },
+];
 
 export default function ReorderForm({ isloading, refetch }) {
   const [fileInfo, setFileInfo] = useState(null);
@@ -42,10 +58,14 @@ export default function ReorderForm({ isloading, refetch }) {
   };
   return (
     <>
-      <p className="text-2xl md:text-[32px] text-[#121417] font-bold">
-        Reorder Alerts
-      </p>
-
+      <div className="flex items-center justify-between">
+        <p className="text-2xl md:text-[32px] text-[#121417] font-bold">
+          Reorder Alerts
+        </p>
+        <div className="border borer-[#D9D9D9] rounded-full p-[3px]">
+          <DownloadTemplate headers={headerData} data={sampleData} />
+        </div>
+      </div>
       <div className="mt-6 grid sm:grid-cols-2 grid-cols-1 gap-5">
         <div>
           <div>
@@ -135,29 +155,6 @@ export default function ReorderForm({ isloading, refetch }) {
             )}
           </div>
         </div>
-
-        {/* <div className="flex items-center justify-between mt-5">
-                <button
-                  onClick={async () => {
-                    const formData = new FormData();
-                    formData.append("file", files);
-      
-                    try {
-                      await updateSales(formData)
-                        .unwrap()
-                        .then((res) => {
-                          toast.success(res?.message);
-                        });
-                    } catch (error) {
-                      console.error("Error uploading file:", error);
-                    }
-                  }}
-                  className="w-[110px] h-10 ml-auto bg-[#F0F2F5] rounded-xl text-sm text-[#121417] font-bold cursor-pointer flex items-center justify-center"
-                >
-                  {isLoading ? <Loader /> : 
-                  "Submit"}
-                </button>
-              </div> */}
       </div>
       <Button
         type="submit"
