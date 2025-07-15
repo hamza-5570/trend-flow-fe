@@ -10,24 +10,25 @@ import Loader from "@/components/common/loader";
 import { toast } from "sonner";
 import sampleData from "../../../data/sample-data.json";
 import DownloadTemplate from "@/components/download-template";
+import { Button } from "@/components/ui/button";
 const headerData = [
-        { label: "SKU", key: "SKU" },
-        { label: "ProductId", key: "Productid" },
-        { label: "OrderId", key: "OrderId" },
-        { label: "UnitsSold", key: "UnitsSold" },
-        { label: "Sales", key: "Sales" },
-        { label: "SaleDate", key: "SaleDate" },
-        { label: "CurrentInventory", key: "CurrentInventory" },
-        { label: "ReorderPoint", key: "ReorderPoint" },
-        { label: "Size", key: "Size" },
-        { label: "Color", key: "Color" },
-        { label: "ProductTitle", key: "ProductTitle" },
-        { label: "Category", key: "Category" },
-        { label: "Subcategory", key: "Subcategory" },
-        { label: "Material", key: "Material" },
-        { label: "Gender_Age", key: "Gender_Age" },
-        { label: "Price", key: "Price" },
-      ]
+  { label: "SKU", key: "SKU" },
+  { label: "ProductId", key: "Productid" },
+  { label: "OrderId", key: "OrderId" },
+  { label: "UnitsSold", key: "UnitsSold" },
+  { label: "Sales", key: "Sales" },
+  { label: "SaleDate", key: "SaleDate" },
+  { label: "CurrentInventory", key: "CurrentInventory" },
+  { label: "ReorderPoint", key: "ReorderPoint" },
+  { label: "Size", key: "Size" },
+  { label: "Color", key: "Color" },
+  { label: "ProductTitle", key: "ProductTitle" },
+  { label: "Category", key: "Category" },
+  { label: "Subcategory", key: "Subcategory" },
+  { label: "Material", key: "Material" },
+  { label: "Gender_Age", key: "Gender_Age" },
+  { label: "Price", key: "Price" },
+];
 export default function UpdateSalesData() {
   const [fileInfo, setFileInfo] = useState(null);
   const [data, setData] = useState([]);
@@ -72,14 +73,14 @@ export default function UpdateSalesData() {
   return (
     <div>
       <div className="flex justify-between">
-      <p className="text-2xl md:text-[32px] text-[#121417] font-bold">
-        Upload Sales Data
-      </p>
-       <div className="border borer-[#D9D9D9] rounded-full p-[3px]">
-
-       <DownloadTemplate headers={headerData} data={sampleData}/>
-        </div>
-        </div>
+        <p className="text-2xl md:text-[32px] text-[#121417] font-bold">
+          Upload Sales Data
+        </p>
+        <Button variant={"outline"}>
+          <p className="text-sm text-[#121417] font-medium">Download Sample</p>
+          <DownloadTemplate headers={headerData} data={sampleData} />
+        </Button>
+      </div>
       <p className="text-sm text-[#637587] pt-2">Step 1 of 2</p>
 
       <p className="xl:w-[980px] text-sm md:text-base text-[#121417] pt-3">

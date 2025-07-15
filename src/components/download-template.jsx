@@ -2,12 +2,9 @@ import React, { useState, useCallback } from "react";
 import { CSVLink } from "react-csv";
 import { IconButton, Tooltip } from "@mui/material";
 import { Download } from "lucide-react";
-const DownloadTemplate = ({data,headers}) => {
+const DownloadTemplate = ({ data, headers }) => {
   return (
-    <CSVLink
-      data={data}
-      headers={headers}
-    >
+    <CSVLink data={data} headers={headers}>
       {/* <Button
         type="button"
         size="xs"
@@ -17,11 +14,7 @@ const DownloadTemplate = ({data,headers}) => {
         Download CSV
       </Button> */}
       <Tooltip title="Download Sample Data">
-        <IconButton
-          type="button"
-          form={"genratemanyform"}
-          className="border-2 border-[#D9D9D9]"
-        >
+        <IconButton type="button" form={"genratemanyform"} className="rounded">
           <Download color="#000" />
         </IconButton>
       </Tooltip>

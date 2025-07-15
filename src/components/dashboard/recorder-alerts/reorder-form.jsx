@@ -62,9 +62,10 @@ export default function ReorderForm({ isloading, refetch }) {
         <p className="text-2xl md:text-[32px] text-[#121417] font-bold">
           Reorder Alerts
         </p>
-        <div className="border borer-[#D9D9D9] rounded-full p-[3px]">
+        <Button variant={"outline"}>
+          <p className="text-sm text-[#121417] font-medium">Download Sample</p>
           <DownloadTemplate headers={headerData} data={sampleData} />
-        </div>
+        </Button>
       </div>
       <div className="mt-6 grid sm:grid-cols-2 grid-cols-1 gap-5">
         <div>
