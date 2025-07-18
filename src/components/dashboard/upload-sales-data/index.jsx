@@ -76,10 +76,7 @@ export default function UpdateSalesData() {
         <p className="text-2xl md:text-[32px] text-[#121417] font-bold">
           Upload Sales Data
         </p>
-        <Button variant={"outline"}>
-          <p className="text-sm text-[#121417] font-medium">Download Sample</p>
-          <DownloadTemplate headers={headerData} data={sampleData} />
-        </Button>
+        <DownloadTemplate headers={headerData} data={sampleData} />
       </div>
       <p className="text-sm text-[#637587] pt-2">Step 1 of 2</p>
 
