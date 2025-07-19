@@ -13,7 +13,7 @@ import DownloadTemplate from "@/components/download-template";
 import { Button } from "@/components/ui/button";
 const headerData = [
   { label: "SKU", key: "SKU" },
-  { label: "ProductId", key: "Productid" },
+  { label: "Productid", key: "Productid" },
   { label: "OrderId", key: "OrderId" },
   { label: "UnitsSold", key: "UnitsSold" },
   { label: "Sales", key: "Sales" },
