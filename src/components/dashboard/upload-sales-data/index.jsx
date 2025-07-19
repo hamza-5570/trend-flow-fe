@@ -29,6 +29,7 @@ const headerData = [
   { label: "Gender_Age", key: "Gender_Age" },
   { label: "Price", key: "Price" },
 ];
+
 export default function UpdateSalesData() {
   const [fileInfo, setFileInfo] = useState(null);
   const [data, setData] = useState([]);
