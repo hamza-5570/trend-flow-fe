@@ -4,7 +4,7 @@ import { IconButton, Tooltip, Button, Icon } from "@mui/material";
 import { Download } from "lucide-react";
 const DownloadTemplate = ({ data, headers }) => {
   return (
-    <CSVLink data={data} headers={headers}>
+    <CSVLink data={data} headers={headers} filename={"template.csv"}>
       <Button
         variant="outlined"
         color="#000"

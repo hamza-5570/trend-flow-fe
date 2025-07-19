@@ -13,7 +13,7 @@ import TableRow from "./table/table-row";
 
 const headerData = [
   { label: "SKU", key: "SKU" },
-  { label: "ProductId", key: "Productid" },
+  { label: "Productid", key: "Productid" },
   { label: "Size", key: "Size" },
   { label: "Color", key: "Color" },
   { label: "ProductTitle", key: "ProductTitle" },
