@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function TableRow({ item }) {
-  const { SKU, Sales, UnitsSold, SaleDate } = item || {};
+  const { SKU, Sales, UnitsSold, SaleDate, Price } = item || {};
 
   const formatDate = (isoString) => {
     const date = new Date(isoString);
@@ -22,7 +22,9 @@ export default function TableRow({ item }) {
       <div className="w-[200px] text-sm text-[#61788A]">{SKU}</div>
 
       <div className="w-[200px] text-sm text-[#61788A]">{UnitsSold}</div>
-      <div className="w-[200px] text-sm text-[#61788A]">${Sales}</div>
+      <div className="w-[200px] text-sm text-[#61788A]">
+        ${UnitsSold * Price}
+      </div>
     </div>
   );
 }
