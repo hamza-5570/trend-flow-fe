@@ -13,16 +13,10 @@ import Loader from "@/components/common/loader";
 import Mypaginations from "@/components/my-paginations";
 import { useRouter } from "next/router";
 import { Button } from "@/components/ui/button";
-import {
-  AlertCircleIcon,
-  CheckCircle2Icon,
-  ChevronRight,
-  Trash,
-  Cross,
-  X
-} from "lucide-react";
+import { Trash } from "lucide-react";
 import toast from "react-hot-toast";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import AlertReminder from "@/components/common/alert";
 
 export default function Dashboard() {
   const [filters, setFilters] = useState({
@@ -39,7 +33,6 @@ export default function Dashboard() {
     useStockOutAlertsQuery(filtersoverStock);
   const { data: topselling, isLoading: topLoading } = useTopSellingsQuery();
   const [currentPage, setCurrentPage] = useState(1);
-  const [IsShowAlert, setIsShowAlert] = useState(true);
   const { totalPages } = topselling?.data?.pagination || {};
   const [deleteAllAlerts, { isLoading: isloading }] =
     useDeleteAllAlertsMutation();
@@ -104,18 +97,12 @@ export default function Dashboard() {
   console.log("selectedTopSelling", selectedTopSelling);
   return (
     <div className="font-sans">
-      {IsShowAlert &&  <Alert className="mb-5 shadow-lg relative  border-blue-500" title="Success Alert">
-        <AlertCircleIcon />
-        <AlertTitle>Remember: Check This Before Moving Forward.</AlertTitle>
-        <AlertDescription>
-          If the updates are not visible, please refresh the page. Ensure data
+      <AlertReminder
+        title="Remember: Check This Before Moving Forward."
+        description=" If the updates are not visible, please refresh the page. Ensure data
           is uploaded on both the Sales Data and Reorder Alerts pages before
-          checking forecasts.
-        </AlertDescription>
-           <X onClick={() => setIsShowAlert(false)} title="Close" className="absolute top-2 right-2 border rounded-full border-black hover:bg-black hover:text-white cursor-pointer"/>
-
-      </Alert>
-      }
+          checking forecasts."
+      />
 
       <p className="text-[28px] md:text-[32px] text-[#121417] font-bold">
         Hi, let's get started!

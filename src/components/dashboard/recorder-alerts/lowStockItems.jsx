@@ -40,8 +40,6 @@ export default function LowStockItems() {
     }
   }, [data]);
 
- 
-
   const handleDeleteAllReorder = async () => {
     const result = await deleteAllAlerts({
       type: "reorder",
@@ -52,11 +50,9 @@ export default function LowStockItems() {
       setselecteReOrder([]);
     }
   };
-  console.log('reorder................',reorder)
 
   return (
     <div className="mt-15">
-
       <div>
         <div className="flex items-center justify-between w-full">
           <p className="text-[22px] font-bold text-[#121417]">Reorder Alerts</p>

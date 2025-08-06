@@ -8,9 +8,8 @@ import {
 } from "@/lib/services/product-api";
 import Loader from "@/components/common/loader";
 import { toast } from "sonner";
-import sampleData from "../../../data/sample-data.json";
+import salesData from "../../../data/sales-data.json";
 import DownloadTemplate from "@/components/download-template";
-import { Button } from "@/components/ui/button";
 const headerData = [
   { label: "SKU", key: "SKU" },
   { label: "Productid", key: "Productid" },
@@ -77,7 +76,7 @@ export default function UpdateSalesData() {
         <p className="text-2xl md:text-[32px] text-[#121417] font-bold">
           Upload Sales Data
         </p>
-        <DownloadTemplate headers={headerData} data={sampleData} />
+        <DownloadTemplate headers={headerData} data={salesData} />
       </div>
       <p className="text-sm text-[#637587] pt-2">Step 1 of 2</p>
 
