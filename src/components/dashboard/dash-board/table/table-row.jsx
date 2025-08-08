@@ -44,13 +44,18 @@ export default function TableRow({
       </div>
 
       <div className="w-[144px] text-sm text-[#61788A]">
-        ${item?.totalSalesAmount?.toFixed(2)}
+        $
+        {item?.totalSalesAmount
+          ?.toFixed(2)
+          ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
       </div>
       <div className="w-[138px] text-sm text-[#61788A]">
-        {item?.totalUnitsSold}
+        {item?.totalUnitsSold?.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
       </div>
 
-      <div className="w-[141px] text-sm text-[#61788A]">{item?.stock}</div>
+      <div className="w-[141px] text-sm text-[#61788A]">
+        {item?.stock?.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+      </div>
       <div className="w-[153px] text-sm text-[#61788A]">
         {formatDate(item?.stockInDate)}
       </div>

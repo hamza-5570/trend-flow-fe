@@ -21,7 +21,9 @@ export default function TableRow({ item }) {
 
       <div className="w-[200px] text-sm text-[#61788A]">{SKU}</div>
 
-      <div className="w-[200px] text-sm text-[#61788A]">{UnitsSold}</div>
+      <div className="w-[200px] text-sm text-[#61788A]">
+        {UnitsSold.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+      </div>
       <div className="w-[200px] text-sm text-[#61788A]">
         ${(UnitsSold * Price).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
       </div>
